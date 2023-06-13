@@ -1,4 +1,5 @@
-﻿using Marketplace.Services.Products.Models;
+﻿using Marketplace.Services.Products.Managers;
+using Marketplace.Services.Products.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,35 +7,42 @@ namespace Marketplace.Services.Products.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CategoryController : ControllerBase
+public class CategoriesController : ControllerBase
 {
+    private readonly CategoryManager _categoryManager;
+
+    public CategoriesController(CategoryManager categoryManager)
+    {
+        _categoryManager = categoryManager;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetCategories()
+    {
+        return Ok(await _categoryManager.GetCategories());
+    }
+
+    [HttpGet("{categoryId}")]
+    public async Task<IActionResult> GetById(int categoryId)
+    {
+        return Ok(await _categoryManager.GetById(categoryId));
+    }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCategory(CreateProductModel model)
+    public async Task<IActionResult> AddCategory(CreateCategoryModel? model)
     {
-
-    }
-    [HttpPut]
-    public async Task<IActionResult> UpdateCategory(CreateProductModel model)
-    {
-
+        return Ok(await _categoryManager.AddCategory(model));
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetCategories(CreateProductModel model)
+    [HttpPut("{categoryId}")]
+    public async Task<IActionResult> UpdateCategory(CreateCategoryModel? model, int categoryId)
     {
-
+        return Ok(await _categoryManager.UpdateCategory(model, categoryId));
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetCategoriesById(CreateProductModel model)
+    [HttpDelete("{categoryId}")]
+    public async Task<IActionResult> DeleteCategory(int categoryId)
     {
-
-    }
-
-    [HttpDelete]
-    public async Task DeleteCategory()
-    {
-
+        return Ok(await _categoryManager.DeleteCategory(categoryId));
     }
 }
