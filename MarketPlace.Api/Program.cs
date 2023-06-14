@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Configuration.AddJsonFile("ocelot.json", false, false);
 builder.Services.AddOcelot();
 
 var app = builder.Build();
@@ -21,8 +22,6 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 
-await app.UseOcelot();
-
 app.UseHttpsRedirection();
 
 app.UseCors(cors =>
@@ -31,9 +30,10 @@ app.UseCors(cors =>
         .AllowAnyMethod()
         .AllowAnyOrigin();
 });
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
+
+await app.UseOcelot();
 
 app.Run();

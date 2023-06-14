@@ -8,6 +8,6 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:7070") });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:7075") });
 
 await builder.Build().RunAsync();

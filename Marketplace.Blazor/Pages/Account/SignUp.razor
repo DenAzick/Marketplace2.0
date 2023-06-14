@@ -26,11 +26,12 @@
     private CreateUserModel? _userModel = new CreateUserModel();
     private async Task Register()
     {
+
         var response = await Http.PostAsJsonAsync("/Account/register", _userModel);
 
         if (response.IsSuccessStatusCode)
         {
-            NavManager.NavigateTo("/login");
+            NavManager.NavigateTo("/signin");
         }
     }
 

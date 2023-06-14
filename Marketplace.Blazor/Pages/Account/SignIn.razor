@@ -34,7 +34,7 @@
             if (!string.IsNullOrEmpty(result?.Token))
             {
                 await Storage.SetItemAsStringAsync("token", result.Token);
-                NavigationManager.NavigateTo("/index");
+                NavigationManager.NavigateTo("/profile");
             }
         }
 
