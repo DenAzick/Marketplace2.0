@@ -23,6 +23,13 @@ await app.UseOcelot();
 
 app.UseHttpsRedirection();
 
+app.UseCors(cors =>
+{
+    cors.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+});
+
 app.UseAuthorization();
 
 app.MapControllers();
