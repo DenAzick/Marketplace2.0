@@ -55,7 +55,7 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> Profile()
     {
         var userId = _userProvider.UserId;
-
+                
         var user = await _userManager.GetUser(userId);
         if (user == null)
         {
@@ -76,4 +76,10 @@ public class AccountController : ControllerBase
 
 	    return Ok(new UserModel(user));
     }
+}
+
+public class UserSession
+{
+    public bool IsSignedIn { get; set; }
+    // Add other user-related properties as needed
 }
