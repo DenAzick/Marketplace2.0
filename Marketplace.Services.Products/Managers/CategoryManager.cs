@@ -15,10 +15,17 @@ public class CategoryManager
     public async Task<CategoryModel> AddCategory(CreateCategoryModel? model)
     {
         if (model == null) return null!;
+        var categories = (await _categoryRepository.GetCategories());
+        int maxId = 0;
+        if (categories is { Count: > 0 })
+        {
+            maxId = categories.Max(c => c.Id);
+            maxId = maxId + 1;
+        }
         var category = new Category()
         {
-            Name = model.Name,
-            ParentId = model.ParentId
+            Id = maxId,
+            Name = model.Name
         };
 
         await _categoryRepository.AddCategory(category);
@@ -36,11 +43,11 @@ public class CategoryManager
     public async Task<IEnumerable<CategoryModel>> GetCategories()
     {
         var categoryModels = new List<CategoryModel>();
-        foreach (var category in await _categoryRepository.Categories)
+        foreach (var category in await _categoryRepository.GetCategories())
         {
             categoryModels.Add(ParseCategoryModel(category));
         }
-        return categoryModels; 
+        return categoryModels;
     }
     public async Task<CategoryModel> UpdateCategory(CreateCategoryModel? model, int categoryId)
     {
@@ -48,7 +55,6 @@ public class CategoryManager
         if (model == null) return null!;
 
         category.Name = model.Name;
-        category.ParentId = model.ParentId;
         await _categoryRepository.UpdateCategory(category);
         return ParseCategoryModel(category);
     }
@@ -69,9 +75,6 @@ public class CategoryManager
         {
             Id = category.Id,
             Name = category.Name,
-            ParentId = category.ParentId
         };
     }
-
-
 }
