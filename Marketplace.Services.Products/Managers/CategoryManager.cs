@@ -40,7 +40,7 @@ public class CategoryManager
         {
             categoryModels.Add(ParseCategoryModel(category));
         }
-        return categoryModels;
+        return categoryModels; 
     }
     public async Task<CategoryModel> UpdateCategory(CreateCategoryModel? model, int categoryId)
     {

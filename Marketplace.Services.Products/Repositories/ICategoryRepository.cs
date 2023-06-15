@@ -1,11 +1,11 @@
 ﻿using Marketplace.Services.Products.Entities;
+using MongoDB.Driver;
 
 namespace Marketplace.Services.Products.Repositories;
 
 public interface ICategoryRepository
 {
-   Task<IEnumerable<Category>> Categories { get; set; }
-
+    Task<List<Category>> GetCategories();
     Task AddCategory(Category category);
     Task UpdateCategory(Category category);
     Task DeleteCategory(Category category);
@@ -13,28 +13,43 @@ public interface ICategoryRepository
 
 }
 
-
 public class CategoryRepository : ICategoryRepository
 {
-    public Task<IEnumerable<Category>> Categories { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    private readonly IMongoCollection<Category> _categoryCollection;
 
-    public Task AddCategory(Category category)
+    public async Task<List<Category>> GetCategories()
     {
-        throw new NotImplementedException();
+        return await (await _categoryCollection.FindAsync(_ => true)).ToListAsync();
     }
 
-    public Task DeleteCategory(Category category)
+    public CategoryRepository()
     {
-        throw new NotImplementedException();
+        var client = new MongoClient("mongodb://root:password@mongodb:27017");
+        var database = client.GetDatabase("products");
+        _categoryCollection = database.GetCollection<Category>("categories");
     }
 
-    public Task<Category> GetCategoryById(int categoryId)
+
+    public async Task AddCategory(Category category)
     {
-        throw new NotImplementedException();
+        await _categoryCollection.InsertOneAsync(category);
     }
 
-    public Task UpdateCategory(Category category)
+    public async Task UpdateCategory(Category category)
     {
-        throw new NotImplementedException();
+        var filter = Builders<Category>.Filter.Eq(c => c.Id, category.Id);
+        await _categoryCollection.ReplaceOneAsync(filter, category);
+    }
+
+    public async Task DeleteCategory(Category category)
+    {
+        var filter = Builders<Category>.Filter.Eq(c => c.Id, category.Id);
+        await _categoryCollection.DeleteOneAsync(filter);
+    }
+
+    public async Task<Category> GetCategoryById(int categoryId)
+    {
+        var filter = Builders<Category>.Filter.Eq(c => c.Id, categoryId);
+        return await _categoryCollection.Find(filter).FirstOrDefaultAsync();
     }
 }
