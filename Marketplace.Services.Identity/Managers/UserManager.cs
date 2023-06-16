@@ -74,17 +74,18 @@ public class UserManager
     }
 
 
-    public async Task<User> UpdateUser(User updatedUser)
+    public async Task<User> UpdateUser(UpdateUserModel updatedUser, User user)
     {
-        var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == updatedUser.Id);
+        var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
         if (existingUser == null)
         {
             throw new Exception("User not found.");
         }
 
-        // Update the user's information
         existingUser.Name = updatedUser.Name;
         existingUser.UserName = updatedUser.UserName;
+
+        existingUser.PasswordHash = new PasswordHasher<User>().HashPassword(existingUser, updatedUser.Password);
 
         _dbContext.Users.Update(existingUser);
         await _dbContext.SaveChangesAsync();

@@ -65,7 +65,7 @@ public class AccountController : ControllerBase
         return Ok(new UserModel(user));
     }
 
-    [HttpPost("update")]
+    [HttpPut("update")]
     [Authorize]
     public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserModel updateUserModel)
     {
@@ -77,12 +77,10 @@ public class AccountController : ControllerBase
             return NotFound();
         }
 
-        // Update the user's information
-        user.Name = updateUserModel.Name;
-        user.UserName = updateUserModel.UserName;
-       
 
-        var updatedUser = await _userManager.UpdateUser(user);
+        var updatedUser = await _userManager.UpdateUser(userId,user);
+
+       
 
         return Ok(new UserModel(updatedUser));
     }
