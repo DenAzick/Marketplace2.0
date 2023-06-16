@@ -96,6 +96,7 @@ services:
     volumes:
       - organization_db_data:/var/lib/postgresql/data/
 
+
 volumes:
   chat_db_data:  
   identity_db_data:

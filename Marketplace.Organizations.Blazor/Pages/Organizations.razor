@@ -1,0 +1,46 @@
+﻿@page "/organizations"
+
+@using Marketplace.Organizations.Blazor.Models;
+
+
+@inject HttpClient HttpClient
+
+<h3>Organizations</h3>
+
+@if (organizations == null)
+{
+    <p>Loading organizations...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Logo</th>
+                <th>Contact</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var organization in organizations)
+            {
+                <tr>
+                    <td>@organization.Name</td>
+                    <td>@organization.Description</td>
+                    <td>@organization.Logo</td>
+                    <td>@organization.Contact</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<OrganizationModel> organizations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        organizations = await HttpClient.GetFromJsonAsync<List<OrganizationModel>>("/api/organizations");
+    }
+}

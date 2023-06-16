@@ -1,49 +1,37 @@
 ﻿@page "/Profile"
 @inject HttpClient Http
-@inject NavigationManager Navigation
 @using Blazored.LocalStorage
-@using Marketplace.Blazor.Models.Account
+@using Marketplace.Blazor.Models
+@using Marketplace.Blazor.Models.Account;
 @inject ILocalStorageService Storage
+@inject NavigationManager Navigation
 
 <h3>Profile</h3>
 
-@if (!IsAuthorized)
-{
-    <p>You are not authorized. Please sign in.</p>
-}
-else
-{
-    <p>Name: @user?.Name</p>
-    <p>Username: @user?.UserName</p>
-    <p>id: @user?.Id</p>
-}
+<p>Name: @user?.Name</p>
+
+<nav>
+    <ul>
+        <li><a href="/UpdateUser">Update</a></li>
+    </ul>
+    <a class="logout-button" @onclick="Logout"><i class="fas fa-sign-out-alt"></i></a>
+</nav>
 
 @code {
     User user = new User();
-    bool IsAuthorized = true;
 
     protected override async Task OnInitializedAsync()
     {
         var token = await Storage.GetItemAsStringAsync("token");
-        if (string.IsNullOrEmpty(token))
-        {
-            // Redirect to the sign-in page
-            Navigation.NavigateTo("/SignIn");
-            return;
-        }
-
-        var request = new HttpRequestMessage(HttpMethod.Get, "/Account/profile");
+        var request = new HttpRequestMessage(HttpMethod.Get, "/account/profile");
         request.Headers.Add("Authorization", $"Bearer {token}");
         var response = await Http.SendAsync(request);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            // If the response is not successful, redirect to the sign-in page
-            Navigation.NavigateTo("/SignIn");
-            return;
-        }
-
         user = await response.Content.ReadFromJsonAsync<User>();
-        IsAuthorized = true;
+    }
+
+    private async Task Logout()
+    {
+        await Storage.RemoveItemAsync("token");
+        Navigation.NavigateTo("/login");
     }
 }
