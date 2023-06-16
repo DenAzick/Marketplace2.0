@@ -52,15 +52,7 @@ public class AccountManager
     }
 
 
-    //User user = new User();
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    var token = await _storage.GetItemAsStringAsync("token");
-    //    var request = new HttpRequestMessage(HttpMethod.Get, "/account/profile");
-    //    request.Headers.Add("Authorization", $"Bearer {token}");
-    //    var respones = await _httpClient.SendAsync(request);
-    //    user = await respones.Content.ReadFromJsonAsync<User>();
-    //}
+   
 
 
 

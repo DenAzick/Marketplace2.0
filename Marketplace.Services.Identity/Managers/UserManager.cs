@@ -72,4 +72,23 @@ public class UserManager
     {
 	    return await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName == userName);
     }
+
+
+    public async Task<User> UpdateUser(User updatedUser)
+    {
+        var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == updatedUser.Id);
+        if (existingUser == null)
+        {
+            throw new Exception("User not found.");
+        }
+
+        // Update the user's information
+        existingUser.Name = updatedUser.Name;
+        existingUser.UserName = updatedUser.UserName;
+
+        _dbContext.Users.Update(existingUser);
+        await _dbContext.SaveChangesAsync();
+
+        return existingUser;
+    }
 }
