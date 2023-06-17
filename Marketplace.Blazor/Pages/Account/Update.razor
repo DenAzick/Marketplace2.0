@@ -1,6 +1,8 @@
 ﻿@page "/UpdateUser"
+@using Blazored.LocalStorage;
 @using Marketplace.Blazor.Models.Account
 @inject HttpClient Http
+@inject ILocalStorageService Storage
 @inject NavigationManager NavManager
 @using Marketplace.Blazor.Managers;
 
@@ -77,12 +79,9 @@
 
     private async Task UpdateUser()
     {
-        var response = await Http.PutAsJsonAsync("/Account/UpdateProfile", _userModel);
+        var response = await Http.PutAsJsonAsync("/Account/update", _userModel);
+        await Storage.GetItemAsStringAsync("token");
 
-        if (response.IsSuccessStatusCode)
-        {
-            NavManager.NavigateTo("/Profile");
-        }
+        
     }
-
 }

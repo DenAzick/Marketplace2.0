@@ -78,7 +78,7 @@ public class AccountController : ControllerBase
         }
 
 
-        var updatedUser = await _userManager.UpdateUser(userId,user);
+        var updatedUser = await _userManager.UpdateUser(updateUserModel);
 
        
 
