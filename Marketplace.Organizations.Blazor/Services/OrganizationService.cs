@@ -1,4 +1,5 @@
 ﻿using Marketplace.Organizations.Blazor.Models;
+using Marketplace.Organizations.Blazor.Models.OrganizationModels;
 using System.Net.Http.Json;
 
 namespace Marketplace.Organizations.Blazor.Services

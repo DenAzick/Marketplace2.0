@@ -43,7 +43,6 @@ public class ProductManager
     public async Task<ProductModel> UpdateProduct(Guid productId, CreateProductModel model)
     {
         var product = await _repository.GetProductById(productId);
-        if (product == null) return null!;
 
         product.Name = model.Name;
         product.Description = model.Description;
@@ -58,13 +57,10 @@ public class ProductManager
     public async Task<string> DeleteProduct(Guid productId)
     {
         var product = await _repository.GetProductById(productId);
-        if (product == null) return "Product not found"!;
+
         await _repository.DeleteProduct(product);
         return "Successfully";
     }
-
-
-
 
     private ProductModel ParseToProductModel(Product product)
     {
@@ -77,6 +73,5 @@ public class ProductManager
             CategoryId = product.CategoryId,
             Photo_Path = product.Photo_Path,
         };
-
     }
 }

@@ -1,4 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using Blazored.LocalStorage
+@inject ILocalStorageService Storage
+@inject NavigationManager NavigationManager
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Marketplace.Organizations.Blazor</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -14,26 +18,73 @@
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </div>
+       
+        @if (IsAuthorized)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="profile">
+                    <span class="oi oi-person" aria-hidden="true"></span> Profile
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <button class="btn btn-link nav-link" @onclick="Logout">
+                    <span class="oi oi-account-logout" aria-hidden="true"></span> Logout
+                </button>
+            </div>
+        }
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="signin">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> signin
             </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+        </div><div class="nav-item px-3">
+            <NavLink class="nav-link" href="signup">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> signup
             </NavLink>
+        </div><div class="nav-item px-3">
+            <NavLink class="nav-link" href="createorganization">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> createorganization
+            </NavLink>
+        </div><div class="nav-item px-3">
+            <NavLink class="nav-link" href="getorganizations">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> getorganizations
+            </NavLink>
+        </div><div class="nav-item px-3">
+            <NavLink class="nav-link" href="SendId">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> SendId
+            </NavLink>
+        </div><div class="nav-item px-3">
+            <NavLink class="nav-link" href="/GetById/{Id}">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> /GetById/{Id}
+            </NavLink>
+      
         </div>
     </nav>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+    private bool IsAuthorized = false;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await Storage.GetItemAsStringAsync("token");
+        IsAuthorized = !string.IsNullOrEmpty(token);
+    }
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+    private async Task Logout()
+    {
+        // Perform logout logic, e.g., clearing the token from storage
+        await Storage.RemoveItemAsync("token");
+        IsAuthorized = false;
+
+        NavigationManager.NavigateTo("signin");
+    }
+    
 }

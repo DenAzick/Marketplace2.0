@@ -99,3 +99,94 @@ a, .btn-link {
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
+.text-primary {
+    color: #007bff;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }
+
+.bg-light {
+    background-color: #f8f9fa;
+}
+
+.text-dark {
+    color: #343a40;
+}
+
+.border-primary {
+    border-color: #007bff;
+}
+
+.card {
+    max-width: 450px;
+}
+
+.mb-3:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+
+
+.text-primary {
+    color: #007bff;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }
+
+.bg-light {
+    background-color: #f8f9fa;
+}
+
+.text-dark {
+    color: #343a40;
+}
+
+.border-primary {
+    border-color: #007bff;
+}
+
+.card {
+    max-width: 450px;
+}
+
+.mb-3:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+.container {
+    max-width: 800px;
+}
+
+.bg-primary {
+    background-color: #007bff;
+}
+
+.text-primary {
+    color: #007bff;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }

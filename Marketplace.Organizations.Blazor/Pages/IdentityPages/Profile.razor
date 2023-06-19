@@ -1,0 +1,37 @@
+﻿@page "/Profile"
+@inject HttpClient Http
+@using Blazored.LocalStorage
+@using Marketplace.Blazor.Models.Account;
+
+@inject ILocalStorageService Storage
+@inject NavigationManager Navigation
+
+<h3>Profile</h3>
+
+<p>Name: @user?.Name</p>
+
+<nav>
+    <ul>
+        <li><a href="/UpdateUser">Update</a></li>
+    </ul>
+    <a class="logout-button" @onclick="Logout"><i class="fas fa-sign-out-alt"></i></a>
+</nav>
+
+@code {
+    User user = new User();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await Storage.GetItemAsStringAsync("token");
+        var request = new HttpRequestMessage(HttpMethod.Get, "/account/profile");
+        request.Headers.Add("Authorization", $"Bearer {token}");
+        var response = await Http.SendAsync(request);
+        user = await response.Content.ReadFromJsonAsync<User>();
+    }
+
+    private async Task Logout()
+    {
+        await Storage.RemoveItemAsync("token");
+        Navigation.NavigateTo("/login");
+    }
+}
