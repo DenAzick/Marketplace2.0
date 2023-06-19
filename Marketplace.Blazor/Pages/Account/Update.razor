@@ -1,8 +1,13 @@
 ﻿@page "/UpdateUser"
+@using Blazored.LocalStorage
 @using Marketplace.Blazor.Models.Account
 @inject HttpClient Http
+@inject ILocalStorageService Storage
 @inject NavigationManager NavManager
-@using Marketplace.Blazor.Managers;
+@using Marketplace.Blazor.Managers
+@using System.Net.Http.Headers
+@using System.Text.Json
+@using System.Text
 
 <h3 class="text-center text-primary">Update User</h3>
 
@@ -17,7 +22,7 @@
                             <input @bind="_userModel.Name" class="form-control form-control-lg bg-light text-dark" id="name" type="text" placeholder="Name" />
                         </div>
                         <div class="mb-3">
-                            <input @bind="_userModel.Password" class="form-control form-control-lg bg-light text-dark" id="password" type="password" placeholder="New Password" />
+                            <input @bind="_userModel.Password" class="form-control form-control-lg bg-light text-dark" id="Password" type="password" placeholder="New Password" />
                         </div>
                         <div class="mb-3">
                             <input @bind="_userModel.ConfirmPassword" class="form-control form-control-lg bg-light text-dark" id="confirmPassword" type="password" placeholder="Confirm New Password" />
@@ -38,16 +43,52 @@
 
 @code {
 
-    private UpdateUserModel? _userModel = new UpdateUserModel();
+    private UpdateUserModel _userModel = new UpdateUserModel();
 
-    private async Task UpdateUser()
+    protected override async Task OnInitializedAsync()
     {
-        var response = await Http.PutAsJsonAsync("/Account/UpdateProfile", _userModel);
+        var token = await Storage.GetItemAsStringAsync("token");
+        var request = new HttpRequestMessage(HttpMethod.Get, "/account/profile");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        var response = await Http.SendAsync(request);
 
         if (response.IsSuccessStatusCode)
         {
-            NavManager.NavigateTo("/Profile");
+            // Parse the response content and update the _userModel properties accordingly
+            var content = await response.Content.ReadAsStringAsync();
+            _userModel = JsonSerializer.Deserialize<UpdateUserModel>(content);
+        }
+        else
+        {
+            // Handle the error case when the profile retrieval fails
+            // You can display an error message or redirect to an error page
+            // For example:
+            NavManager.NavigateTo("/error");
         }
     }
 
+    private async Task UpdateUser()
+    {
+        var token = await Storage.GetItemAsStringAsync("token");
+        var request = new HttpRequestMessage(HttpMethod.Put, "/Account/update");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        // Convert the _userModel to JSON string and set it as the request content
+        var json = JsonSerializer.Serialize(_userModel);
+        request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await Http.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            NavManager.NavigateTo("/profile");
+        }
+        else
+        {
+            // Handle the error case when the update fails
+            // You can display an error message or redirect to an error page
+            // For example:
+            NavManager.NavigateTo("/error");
+        }
+    }
 }
