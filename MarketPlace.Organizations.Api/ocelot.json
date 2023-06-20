@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "UpstreamPathTemplate": "/account/{everything}",
+      "UpstreamPathTemplate": "/Account/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -10,7 +10,7 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/account/{everything}"
+      "DownstreamPathTemplate": "/api/Account/{everything}"
 
     },
     {
@@ -24,6 +24,7 @@
         }
       ],
       "DownstreamPathTemplate": "/api/products/{everything}"
+
     },
     {
       "UpstreamPathTemplate": "/categories/{everything}",

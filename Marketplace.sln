@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.Blazor", "Marke
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.Organizations.Blazor", "Marketplace.Organizations.Blazor\Marketplace.Organizations.Blazor.csproj", "{31B68A08-5316-47D1-B40B-D6A2E127BD1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cart", "Cart\Cart.csproj", "{0BB0916B-DCB0-4EF1-BEBF-D1117D2F0449}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{31B68A08-5316-47D1-B40B-D6A2E127BD1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31B68A08-5316-47D1-B40B-D6A2E127BD1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31B68A08-5316-47D1-B40B-D6A2E127BD1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BB0916B-DCB0-4EF1-BEBF-D1117D2F0449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BB0916B-DCB0-4EF1-BEBF-D1117D2F0449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BB0916B-DCB0-4EF1-BEBF-D1117D2F0449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BB0916B-DCB0-4EF1-BEBF-D1117D2F0449}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +95,7 @@ Global
 		{0F299D95-E50B-4227-A741-845A158606B4} = {385ACFF1-6C3C-42F8-A519-BFF7014B345E}
 		{F266386E-CC18-4F4E-9266-3300C96D5C09} = {DA79D6F6-A3F3-4DA5-9A2A-4397AD3DB746}
 		{31B68A08-5316-47D1-B40B-D6A2E127BD1A} = {DA79D6F6-A3F3-4DA5-9A2A-4397AD3DB746}
+		{0BB0916B-DCB0-4EF1-BEBF-D1117D2F0449} = {385ACFF1-6C3C-42F8-A519-BFF7014B345E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B13080AE-6F52-4F14-B91F-33CBF3B57197}
