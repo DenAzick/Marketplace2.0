@@ -87,6 +87,7 @@ public class CategoryManager
         return "This category was deleted";
     }
 
+
     private CategoryModel ParseCategoryModel(Category category)
     {
         var categoryModel = new CategoryModel()
